@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -47,6 +48,12 @@ public class FileController {
                 .body(data);
     }
 
+    @GetMapping("/my-files")
+    public ResponseEntity<?> getMyFiles(Principal principal){
+        String email = principal.getName();
+        List<FileEntity> files = fileRepository.findByOwnerEmail(email);
+        return ResponseEntity.ok(files);
+    }
 
 
 
